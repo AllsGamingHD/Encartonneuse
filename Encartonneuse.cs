@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -16,11 +13,13 @@ namespace Encartonneuse
 
         int nb_RangerAct = 1;
         int nb_BouteilleAct = 0;
+
         public void Connexion()
         {
             ES.Init();
             BaseDD.Connect();
         }
+
         private async Task<int> nb_BouteilleTime(int x)
         {
             switch (x)
@@ -187,19 +186,19 @@ namespace Encartonneuse
                     ES.Relay(3, false);
                 }
 
-                //// Machine prête
+                // Machine prête
 
-                //ES.Relay(5, true);
-                //MessageBox.Show("Machine prête," + Environment.NewLine + "Veuillez mettre un carton en buté puis cliquez sur OK.");
+                ES.Relay(5, true);
+                MessageBox.Show("Machine prête," + Environment.NewLine + "Veuillez mettre un carton en buté puis cliquez sur OK.");
 
-                //while (ES.input3 == false)  // Attendre un placement de carton  
-                //{
-                //    await Task.Delay(1);
-                //    if (ES.input3 == true && ES.input4 == false)
-                //    {
-                //        break;
-                //    }
-                //}
+                while (ES.input3 == false)  // Attendre un placement de carton  
+                {
+                    await Task.Delay(1);
+                    if (ES.input3 == true && ES.input4 == false)
+                    {
+                        break;
+                    }
+                }
                 return "Stop";
             }
             else

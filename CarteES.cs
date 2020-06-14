@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO.Ports;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -16,65 +13,83 @@ namespace Encartonneuse
 
         public void Init()
         {
-            USB_PORT = new SerialPort();
-
-            if (USB_PORT.IsOpen)
+            try
             {
-                USB_PORT.Close();
-            }// close any existing handle
+                USB_PORT = new SerialPort();
 
-
-            USB_PORT.PortName = "COM4";    // retrieves "COMx" from selection in combo box
-            USB_PORT.Parity = 0;
-            USB_PORT.BaudRate = 19200;
-            USB_PORT.StopBits = StopBits.Two;
-            USB_PORT.DataBits = 8;
-            USB_PORT.ReadTimeout = 50;
-            USB_PORT.WriteTimeout = 50;
-            USB_PORT.Open();
-
-            SerBuf[0] = 0x5A;       // get version command for RLY16, returns module id and software version
-            transmit(1);
-            receive(2);
-
-            if (SerBuf[0] == 12)  // if the module id is that of the usb-opto-rly88  
-            {
-                //textBox_ver.Text = string.Format("{0}", SerBuf[1]);  //print the software version on screen
-                usb_opto_rly88_found = 1;                            // and set the usb-i2c found indicator
-            }
-            Task t1 = new Task(async () =>
-            {
-                while (true)
+                if (USB_PORT.IsOpen)
                 {
-                    await Task.Delay(10);
-                    if (USB_PORT.IsOpen)
-                    {
-                        GetInputeStates();
-                    }
-                    else
-                    {
-                        USB_PORT.Close();
-                        MessageBox.Show("Connexion à la carte E/S perdue, Veuillez verifier les branchement puis cliquez sur OK.");
-                    }
-                    while (USB_PORT.IsOpen == false)
-                    {
-                        try
-                        {
-                            USB_PORT.PortName = "COM7";    // retrieves "COMx" from selection in combo box
-                            USB_PORT.Parity = 0;
-                            USB_PORT.BaudRate = 19200;
-                            USB_PORT.StopBits = StopBits.Two;
-                            USB_PORT.DataBits = 8;
-                            USB_PORT.ReadTimeout = 50;
-                            USB_PORT.WriteTimeout = 50;
-                            USB_PORT.Open();
-                            MessageBox.Show("Connexion à la carte ES retrouvée.");
-                        }
-                        catch { }
-                    }
+                    USB_PORT.Close();
+                }// close any existing handle
+
+
+                USB_PORT.PortName = "COM4";    // retrieves "COMx" from selection in combo box
+                USB_PORT.Parity = 0;
+                USB_PORT.BaudRate = 19200;
+                USB_PORT.StopBits = StopBits.Two;
+                USB_PORT.DataBits = 8;
+                USB_PORT.ReadTimeout = 50;
+                USB_PORT.WriteTimeout = 50;
+                USB_PORT.Open();
+
+                SerBuf[0] = 0x5A;       // get version command for RLY16, returns module id and software version
+                transmit(1);
+                receive(2);
+
+                if (SerBuf[0] == 12)  // if the module id is that of the usb-opto-rly88  
+                {
+                    //textBox_ver.Text = string.Format("{0}", SerBuf[1]);  //print the software version on screen
+                    usb_opto_rly88_found = 1;                            // and set the usb-i2c found indicator
                 }
-            });
-            t1.Start();
+                Task t1 = new Task(async () =>
+                {
+                    int attemp = 0;
+                    bool OK = true;
+                    while (OK)
+                    {
+                        await Task.Delay(10);
+                        if (USB_PORT.IsOpen)
+                        {
+                            GetInputeStates();
+                        }
+                        else
+                        {
+                            USB_PORT.Close();
+                            MessageBox.Show("Connexion à la carte E/S perdue, Veuillez verifier les branchement puis cliquez sur OK.", "Connexion carte E/S Perdue", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        }
+                        while (USB_PORT.IsOpen == false)
+                        {
+                            if (attemp <= 20)
+                            {
+                                try
+                                {
+                                    USB_PORT.PortName = "COM7";    // retrieves "COMx" from selection in combo box
+                                    USB_PORT.Parity = 0;
+                                    USB_PORT.BaudRate = 19200;
+                                    USB_PORT.StopBits = StopBits.Two;
+                                    USB_PORT.DataBits = 8;
+                                    USB_PORT.ReadTimeout = 50;
+                                    USB_PORT.WriteTimeout = 50;
+                                    USB_PORT.Open();
+                                    MessageBox.Show("Connexion à la carte ES retrouvée.", "Connexion retrouvée", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                }
+                                catch { }
+                            }
+                            else
+                            {
+                                OK = false;
+                                MessageBox.Show("Impossible de se reconnecter.\nVeuillez relancer le programme et relancer un cycle", "Re-connexion carte E/S Impossible", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                break;
+                            }
+                        }
+                    }
+                });
+                t1.Start();
+            }
+            catch
+            {
+                MessageBox.Show("Connexion impossible à la carte entrées/sorties !", "Erreur", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         public async void Relay(int i, bool status)

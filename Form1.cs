@@ -1,11 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Encartonneuse
@@ -42,7 +36,7 @@ namespace Encartonneuse
 
         private async void btn_StartProg_Click(object sender, EventArgs e)
         {
-            // Vérif des capteurs & Attendre le placement du carton si tout est OK
+            // Vérification des capteurs & Attendre le placement du carton si tout est OK
             btn_StartProg.Text = await ECT.Demarrage_Init();
 
             ECT.ajouter_Bouteilles();

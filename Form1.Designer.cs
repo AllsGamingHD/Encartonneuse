@@ -54,14 +54,12 @@
             // 
             // timer1
             // 
-            this.timer1.Enabled = true;
             this.timer1.Interval = 1;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
             // rB_BouteilleCamera
             // 
             this.rB_BouteilleCamera.AutoSize = true;
-            this.rB_BouteilleCamera.Enabled = false;
             this.rB_BouteilleCamera.Location = new System.Drawing.Point(12, 12);
             this.rB_BouteilleCamera.Name = "rB_BouteilleCamera";
             this.rB_BouteilleCamera.Size = new System.Drawing.Size(103, 17);
@@ -73,7 +71,6 @@
             // rB_BouteilleSortie
             // 
             this.rB_BouteilleSortie.AutoSize = true;
-            this.rB_BouteilleSortie.Enabled = false;
             this.rB_BouteilleSortie.Location = new System.Drawing.Point(12, 35);
             this.rB_BouteilleSortie.Name = "rB_BouteilleSortie";
             this.rB_BouteilleSortie.Size = new System.Drawing.Size(93, 17);
@@ -85,7 +82,6 @@
             // rB_CapteurCarton1
             // 
             this.rB_CapteurCarton1.AutoSize = true;
-            this.rB_CapteurCarton1.Enabled = false;
             this.rB_CapteurCarton1.Location = new System.Drawing.Point(12, 58);
             this.rB_CapteurCarton1.Name = "rB_CapteurCarton1";
             this.rB_CapteurCarton1.Size = new System.Drawing.Size(104, 17);
@@ -97,7 +93,6 @@
             // rB_CapteurCarton2
             // 
             this.rB_CapteurCarton2.AutoSize = true;
-            this.rB_CapteurCarton2.Enabled = false;
             this.rB_CapteurCarton2.Location = new System.Drawing.Point(12, 81);
             this.rB_CapteurCarton2.Name = "rB_CapteurCarton2";
             this.rB_CapteurCarton2.Size = new System.Drawing.Size(104, 17);
@@ -109,7 +104,6 @@
             // rB_PasPelerin
             // 
             this.rB_PasPelerin.AutoSize = true;
-            this.rB_PasPelerin.Enabled = false;
             this.rB_PasPelerin.Location = new System.Drawing.Point(12, 104);
             this.rB_PasPelerin.Name = "rB_PasPelerin";
             this.rB_PasPelerin.Size = new System.Drawing.Size(92, 17);
@@ -121,7 +115,6 @@
             // rB_OrigineBouteille
             // 
             this.rB_OrigineBouteille.AutoSize = true;
-            this.rB_OrigineBouteille.Enabled = false;
             this.rB_OrigineBouteille.Location = new System.Drawing.Point(12, 127);
             this.rB_OrigineBouteille.Name = "rB_OrigineBouteille";
             this.rB_OrigineBouteille.Size = new System.Drawing.Size(100, 17);
@@ -133,7 +126,6 @@
             // rB_PointEntreBouteilleEtCarton
             // 
             this.rB_PointEntreBouteilleEtCarton.AutoSize = true;
-            this.rB_PointEntreBouteilleEtCarton.Enabled = false;
             this.rB_PointEntreBouteilleEtCarton.Location = new System.Drawing.Point(12, 150);
             this.rB_PointEntreBouteilleEtCarton.Name = "rB_PointEntreBouteilleEtCarton";
             this.rB_PointEntreBouteilleEtCarton.Size = new System.Drawing.Size(163, 17);
@@ -145,7 +137,6 @@
             // rB_PointOrigineX
             // 
             this.rB_PointOrigineX.AutoSize = true;
-            this.rB_PointOrigineX.Enabled = false;
             this.rB_PointOrigineX.Location = new System.Drawing.Point(12, 173);
             this.rB_PointOrigineX.Name = "rB_PointOrigineX";
             this.rB_PointOrigineX.Size = new System.Drawing.Size(93, 17);
@@ -160,7 +151,7 @@
             this.btn_StartProg.Name = "btn_StartProg";
             this.btn_StartProg.Size = new System.Drawing.Size(183, 132);
             this.btn_StartProg.TabIndex = 2;
-            this.btn_StartProg.Text = "Start";
+            this.btn_StartProg.Text = "Stop";
             this.btn_StartProg.UseVisualStyleBackColor = true;
             this.btn_StartProg.Click += new System.EventHandler(this.btn_StartProg_Click);
             // 
@@ -180,7 +171,8 @@
             this.Controls.Add(this.rB_BouteilleCamera);
             this.Controls.Add(this.btn_ArretUrgence);
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Text = "Encartonneuse";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.ArretUrgence_FormClose);
             this.ResumeLayout(false);
             this.PerformLayout();
